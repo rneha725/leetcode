@@ -1,0 +1,1 @@
+- While implementing the `unordered_map`, if you see keys are limited then you can use a vector. Same goes with the `ordered_map`

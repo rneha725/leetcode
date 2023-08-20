@@ -5,7 +5,6 @@ Given an unsorted array of integers nums, return the length of the longest conse
 
 You must write an algorithm that runs in O(n) time.
 
- 
 
 Example 1:
 

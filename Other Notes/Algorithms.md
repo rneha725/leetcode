@@ -5,8 +5,6 @@
 Combines disjoint set.
 
 ```cpp
-// Union Find
-
 unordered_map<int, int> root;
 
 void Union(int x, int y) { //don't use `union` as it is a keyword
@@ -33,3 +31,14 @@ int find(int x) {
 
 #### DFS
 Complexity: O(n)
+
+### BFS
+
+### TopSort
+
+### Dijstra's
+
+
+### Prim's or Kruskal
+
+### Floyd Warshall

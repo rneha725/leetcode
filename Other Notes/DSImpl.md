@@ -1,5 +1,5 @@
 ### Linked List
-```
+```cpp
 class ListNode {
 	unsigned int val;
 	ListNode* next;
@@ -23,7 +23,7 @@ class ListNode {
 ```
 
 ### Graph definition
-```
+```cpp
 class Node {
 public:
     int val;

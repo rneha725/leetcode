@@ -6,9 +6,10 @@
 Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
 
 You may assume that each input would have exactly one solution, and you may not use the same element twice.
-
-You can return the answer in any order.
 ```
+
+### Description
+Exactly one solution means that for all other solutions, we won't find a pair.
 
 ### Solution
 
@@ -44,3 +45,41 @@ public:
 ### Complexity
 #### Time: O(n)
 #### Space: O(n)
+
+----
+### Variations
+1. Sorted array and exactly one solution exists.
+    
+    https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/ 
+    ````cpp 
+    ```
+    /* 
+    two pointer solution. Take ptr1, ptr2
+    time: O(n), Space: O(1)
+
+
+    */
+
+    class Solution {
+    public:
+        vector<int> twoSum(vector<int>& numbers, int target) {
+            int n = numbers.size();
+            int ptr1 = 0;
+            int ptr2 = n - 1;
+
+            while(ptr1 < ptr2) {
+                int sum = numbers[ptr1] + numbers[ptr2];
+                if(sum == target) {
+                    return {ptr1, ptr2};
+                } else if(sum > target) {
+                    ptr2--;
+                } else {
+                    ptr1++;
+                }
+            }
+
+            return {};
+        }
+    };```
+    ````
+2. 

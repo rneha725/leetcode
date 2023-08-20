@@ -9,7 +9,7 @@ class ListNode {
 			return current->next;
 		} else {
 			return NULL;
-		}
+		} 
 	}
 	ListNode() {
 		this.val = -1;

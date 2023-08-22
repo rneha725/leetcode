@@ -35,10 +35,67 @@ Complexity: O(n)
 ### BFS
 
 ### TopSort
+TopSort could also be called post order DFS as it follows DFS but before we mark the current node as visited, we need to make all of it's decendants as visited.
+
+It works on a DAG.
+
+- **TopSort when given graph is DAG:**
+```cpp
+hash_set<int> visited;
+string sortedNodes;
+
+void dfs(int node) {
+    //1. Start visiting the neighbours
+    for(int neighbour: graph[node]) {
+        if(!visited.count(neighbourl)) {
+            dfs(neighbour);
+        }
+    }
+
+    //2. after we are done visiting all the neighbours, then mark a node as visited
+    visited.insert(node);
+    sortedNodes += to_string(node); //3. reverse this to get the order
+}
+```
+
+- **TopSort with Cycle Detection:**
+  Use 3 states for cycle detection as below. 
+
+```cpp
+unordered_map<int, vector<int>> adjList;
+unordered_map<int, int> isVisited;
+int VISITED = 1;
+int BEING_VISITED = -1;
+int NOT_VISITED = 0;
+int CYCLE = false;
+string sol;
+//topSort with cycle detection
+bool dfs(int node) {
+	if(isVisited[node] != NOT_VISITED) {
+		return isVisited[node];
+	}
+	
+	isVisited[node] = BEING_VISITED;
+	
+	for(int nbr: adjList[node]) {
+		if(isVisited[nbr] == NOT_VISITED) {
+			if(dfs(nbr) == CYCLE) {
+                return CYCLE;
+            }
+		}
+	}
+	stk.push(node) //to maintain the reverse order
+	isVisited[node] = VISITED;
+	return true;
+}
+```
 
 ### Dijstra's
 
 
+### Cycle Detection
+The key is to 
 ### Prim's or Kruskal
 
 ### Floyd Warshall
+

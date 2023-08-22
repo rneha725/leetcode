@@ -24,6 +24,11 @@ class ListNode {
 
 ### Graph definition
 ```cpp
+
+//simple and useful
+unordered_map<int, vector<int>> adjList;
+
+//alternative
 class Node {
 public:
     int val;

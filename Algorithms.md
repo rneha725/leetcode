@@ -65,6 +65,8 @@ If we will add these up: 1*V + (E1 + E2 + E3...) = (V + E)
 
 
 ### TopSort
+
+#### Type of Graph: Directed
 TopSort could also be called post order DFS as it follows DFS but before we mark the current node as visited, we need to make all of it's decendants as visited.
 
 It works on a DAG.
@@ -94,10 +96,12 @@ void dfs(int node) {
 ```cpp
 unordered_map<int, vector<int>> adjList;
 unordered_map<int, int> isVisited;
+
 int VISITED = 1;
 int BEING_VISITED = -1;
 int NOT_VISITED = 0;
 int CYCLE = false;
+
 string sol;
 //topSort with cycle detection
 bool dfs(int node) {
@@ -131,7 +135,22 @@ Space: Recursion stack: O(V)
 
 ### Cycle Detection
 The key is to 
+
 ### Prim's or Kruskal
+
+#### Type of graph: Undirected connected graph
+
+This algorithm is to get the minimum spanning tree, which is used in solving problems which require connecting components with minimum cost. 
+I will discuss Kruskal's algorithm, the idea is basically to sort all the edges and then starting from the smallest edge, at the same time algorithm needs to make sure that it is not introducing a cycle, so we can use a union find algorithm while introducing a new edge in the MST. If the roots are same for two nodes connected with the edge, then no need to use this edge.
+
+- [ ] Implementation pending
+
+Time: Sorting: O(V*LogE)
+For a graph with V vertices E edges, Kruskal's algorithm runs in O(E log V) time and Prim's algorithm can run in O(E + V log V) amortized time, if you use a Fibonacci Heap.
+Prim's algorithm is significantly faster in the limit when you've got a really dense graph with many more edges than vertices. Kruskal performs better in typical situations (sparse graphs) because it uses simpler data structures.
+
+
+
 
 ### Floyd Warshall
 

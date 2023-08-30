@@ -1,7 +1,7 @@
-## Graph Related algorithms
+## 1. Graph Related algorithms
 [NeetCode Video](https://www.youtube.com/watch?v=utDu3Q7Flrw&t=3s)
 
-#### Union Find
+### 1.1 Union Find
 Combines disjoint set.
 
 
@@ -45,10 +45,25 @@ int find(int x) {
 
 
 
-#### DFS
-Complexity: O(n)
+### 1.2 DFS
+Time Complexity: O(V + E)
+Space Complexity: O(V)
 
-### BFS
+### 1.3 BFS
+Time Complexity: O(V + E)
+Space Complexity: O(V)
+
+```
+Note on BFS and DFS complexities: So generally there is a while loop working on nuber of vertices: V, and for each of the iteration we go through attached unvisited edges to the vertex. As we are only visiting a subset of all the edges in one iteration, the complexity can be calculated by adding the compalexities for each Vertex. Assume E is the total number of edges. For each loop:
+1. 1 + E1(unvisited edges)
+2. 1 + E2(...)
+... till V nodes
+
+If we will add these up: 1*V + (E1 + E2 + E3...) = (V + E)
+
+```
+
+
 
 ### TopSort
 TopSort could also be called post order DFS as it follows DFS but before we mark the current node as visited, we need to make all of it's decendants as visited.

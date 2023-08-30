@@ -4,13 +4,28 @@
 #### Union Find
 Combines disjoint set.
 
+
+In union find, one of the tricky part is to optimize it. So, for optimizing, we can try to keep the root trees as short as possible. This will optimize the find operation. 
+Also, while we perform Union, we can try to connect in a such a way that the resultant tree has the minimum height. This can be done by recording the depth as Rank hashmap. If the `Rank[x] > Rank[y]` => we need to make the `y` tree as the subtree of `x` => no change in rank for x as the height is same. This is true if we exhange x and y. Although, when the heights are same, whatever us chosen as the root will have its rank increased.
+
+The complexity of the Union-Find algorithm can be analyzed as follows: the constructor initializes the data structure requires O (N) time and space complexity. However, the time complexity required for union,connected and count is O (1).
+
 ```cpp
-unordered_map<int, int> root;
+unordered_map<int, int> root; //1. Initialize each element as its own root
+unordered_map<int, int> rank; //1. Initialize each element with depth or rank as 1
 
 void Union(int x, int y) { //don't use `union` as it is a keyword
     int root_x = find(x);
     int root_y = find(y);
-    root[root_y] = root_x; //you can be more selective here, which one will become the new root etc.
+    // this is called union by rank
+    if(rank[x] == rank[y]) {
+        rank[root_x]++;
+    }
+    if(rank[x] >= rank[y]) {
+        root[root_y] = root_x;
+    } else {
+        root[root_x] = root_y;
+    }
 }
 
 
@@ -18,6 +33,7 @@ int find(int x) {
     if(root[x] == x) {
         return x;
     } else {
+        //this is called path compression
         return root[x] = find(root[x]); // VERY VERY IMPORTANT to update the root in the call stack,
         // DO NOT FORGET this line as it will disrupt the complexity.
         // As find_root will always update the root of whatver element it traverses during the search, 
@@ -236,5 +252,77 @@ Source: StackOverflow
     
     A formal analysis of the median-of-medians algorithm is much harder because the recurrence is difficult and not easy to analyze. Intuitively, the algorithm works by doing a small amount of work to guarantee a good pivot is chosen. However, because there are two different recursive calls made, an analysis like the above won't work correctly. You can either use an advanced result called the [Akra-Bazzi theorem](http://en.wikipedia.org/wiki/Akra%E2%80%93Bazzi_method), or use the formal definition of big-O to explicitly prove that the runtime is O(n). For a more detailed analysis, check out "Introduction to Algorithms, Third Edition" by Cormen, Leisserson, Rivest, and Stein.
 </details>
+
+
+## Array Related Algorithms
+
+### Merge Sort
+### Usages
+
+- Sorting linked lists
+- Very good choice for large lists
+
+### Properties
+
+- Stable algorithm
+
+### Complexity
+
+- Time: O(n log n) → Best, Average and Worst
+- Space: O(n) → a temporary array is created to merge two sorted lists.
+
+### Code:
+```cpp
+//1. find the mid element
+//2. sort left -> mid and mid + 1 -> right
+//3. merge sorted arrays using a temporary array: merge function
+
+void mergeSort(int left, int right) {
+    if(left >= right) return;
+    int mid = (left + right)/2;
+
+    mergeSort(left, mid);
+    mergeSort(mid + 1, right);
+
+    merge(left, mid, right);
+}
+
+void merge(int left, int mid, int right) {
+        //Goal: merge two sorted array left: mid and mid + 1: right
+        int size = (right - left + 1);
+
+        int i = left; //left: mid;
+        int j = mid + 1; //mid+1:right;
+        vector<int> tmp;
+
+        while(i <= mid && j <= right) {
+            //descending order
+            int leftEle = nums[i];
+            int rightEle = nums[j];
+
+            if(leftEle <= rightEle) {
+                tmp.push_back(rightEle);
+                j++;
+            } else {
+                tmp.push_back(leftEle);
+                i++;
+            }
+        }
+
+        //step 2. copying remaining elements
+        while(i <= mid) {
+            tmp.push_back(nums[i++]);
+        }
+
+        while(j <= right) {
+            tmp.push_back(nums[j++]);
+        }
+
+        //step 3. tranfering tmp values to original array
+        for(int i = 0; i < tmp.size() && (i + left) < nums.size(); i++) {
+            nums[i + left] = tmp[i];
+        }
+    }
+```
 
 

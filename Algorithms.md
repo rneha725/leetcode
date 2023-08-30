@@ -64,7 +64,6 @@ If we will add these up: 1*V + (E1 + E2 + E3...) = (V + E)
 ```
 
 
-
 ### TopSort
 TopSort could also be called post order DFS as it follows DFS but before we mark the current node as visited, we need to make all of it's decendants as visited.
 
@@ -121,7 +120,12 @@ bool dfs(int node) {
 }
 ```
 
-Complexity: Time: O(v + e). Space: Recursion stack: O(v)
+#### Complexity: 
+
+Time: O(V + E). 
+
+Space: Recursion stack: O(V)
+
 ### Dijkstra's
 
 

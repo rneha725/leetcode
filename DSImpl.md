@@ -11,39 +11,24 @@ class ListNode {
 			return NULL;
 		} 
 	}
-	ListNode() {
-		this.val = -1;
-		this.next = NULL;
-	}
-    ListNode(int val) {
-		this.val = val;
-		this.next = NULL;
-	}
+	//add constructors as per the needs
 };
 ```
 
 ### Graph definition
-```cpp
 
+#### 1. Undirected unweighted graph
+
+```cpp
 //simple and useful
 unordered_map<int, vector<int>> adjList;
-
+```
+```cpp
 //alternative
 class Node {
 public:
     int val;
     vector<Node*> neighbors;
-    Node() {
-        val = 0;
-        neighbors = vector<Node*>();
-    }
-    Node(int _val) {
-        val = _val;
-        neighbors = vector<Node*>();
-    }
-    Node(int _val, vector<Node*> _neighbors) {
-        val = _val;
-        neighbors = _neighbors;
-    }
 };
 ```
+

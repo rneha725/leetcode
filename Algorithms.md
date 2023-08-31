@@ -1,7 +1,12 @@
 ## 1. Graph Related algorithms
 [NeetCode Video](https://www.youtube.com/watch?v=utDu3Q7Flrw&t=3s)
 
+- [ ] how to store a weighted graph?
+
 ### 1.1 Union Find
+---
+
+#### Type of graph: Undirected
 Combines disjoint set.
 
 
@@ -43,13 +48,18 @@ int find(int x) {
 
 ```
 
+#### Application of Union Find
+- In disjoin set, grpuping them using a property
+- Finding cycle in Undirected connected graph
 
 
 ### 1.2 DFS
+---
 Time Complexity: O(V + E)
 Space Complexity: O(V)
 
 ### 1.3 BFS
+---
 Time Complexity: O(V + E)
 Space Complexity: O(V)
 
@@ -64,9 +74,11 @@ If we will add these up: 1*V + (E1 + E2 + E3...) = (V + E)
 ```
 
 
-### TopSort
+### 1.4 TopSort
+---
 
-#### Type of Graph: Directed
+#### Type of Graph: Directed Graph
+
 TopSort could also be called post order DFS as it follows DFS but before we mark the current node as visited, we need to make all of it's decendants as visited.
 
 It works on a DAG.
@@ -130,13 +142,38 @@ Time: O(V + E).
 
 Space: Recursion stack: O(V)
 
-### Dijkstra's
+#### Applications of TopSort
+- Finding the order in which dependecies should be built
+
+### 1.5 Shortest Path Algorithms
+
+#### 1.5.1 [Single Source] Dijkstra's Algorithms
+Type of Grapth: weighted non-negative edges
+
+#### 1.5.2 [Single Source] Bellman Ford
+
+Type of graph: Weighted, negative too
+This algorithm is also useful in finding the negative cycles. 
+The idea is basically, if we want to have a shortest path graph from a source, the most length will be V - 1. We basically have directed edges and we calculate the minimum distance by going through all the edges V - 1 times. 
+You can take an example and understand that one iteration would not generate guarateed results. Some said that if the i is the ith iteration, then we will have the tree with i as the maximum path. I do not understand it well but the key is to remember that we do the calculation V - 1 times. 
+
+Time: O(V*E)
+Space: Edge store: cost for each vertices
+O(E + V)
+
+#### Applications of Bellman Ford: 
+- Detecting negative cycles
+
+#### 1.5.3 [All Pairs] Floyd Warshall
+The Floyd-Warshall algorithm solves the all-pairs shortest path problem. It uses a dynamic programming approach to do so. Negative edge weight may be present for Floyd-Warshall.
+
+Floyd-Warshall takes advantage of the following observation: the shortest path from A to C is either the shortest path from A to B plus the shortest path from B to C or it's the shortest path from A to C that's already been found. This may seem trivial, but it's what allows Floyd-Warshall to build shortest paths from smaller shortest paths, in the classic dynamic programming way.
 
 
-### Cycle Detection
+### 1.6 Cycle Detection
 The key is to 
 
-### Prim's or Kruskal
+### 1.7 Prim's or Kruskal
 
 #### Type of graph: Undirected connected graph
 
@@ -149,10 +186,6 @@ Time: Sorting: O(V*LogE)
 For a graph with V vertices E edges, Kruskal's algorithm runs in O(E log V) time and Prim's algorithm can run in O(E + V log V) amortized time, if you use a Fibonacci Heap.
 Prim's algorithm is significantly faster in the limit when you've got a really dense graph with many more edges than vertices. Kruskal performs better in typical situations (sparse graphs) because it uses simpler data structures.
 
-
-
-
-### Floyd Warshall
 
 ## Arrays
 

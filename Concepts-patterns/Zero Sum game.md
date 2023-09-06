@@ -62,3 +62,6 @@ public:
     }
 };
 ```
+
+#### Main Elements
+1. Payoff measurement: fucntion or table

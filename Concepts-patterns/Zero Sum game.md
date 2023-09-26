@@ -1,4 +1,5 @@
 ### Overview
+---
 [As per wikipedia](https://en.wikipedia.org/wiki/Zero-sum_game)
 
 Zero-sum game is a mathematical representation in game theory and economic theory of a situation that involves two sides, where the result is an advantage for one side and an equivalent loss for the other. In other words, player one's gain is equivalent to player two's loss, with the result that the net improvement in benefit of the game is zero.
@@ -7,7 +8,9 @@ If the total gains of the participants are added up, and the total losses are su
 
 In contrast, non-zero-sum describes a situation in which the interacting parties' aggregate gains and losses can be less than or more than zero. A zero-sum game is also called a strictly competitive game, while non-zero-sum games can be either competitive or non-competitive. Zero-sum games are most often solved with the minimax theorem which is closely related to linear programming duality, or with Nash equilibrium. Prisoner's Dilemma is a classic non-zero-sum game.
 
+### How to solve?
 ----
+
 After understanding what a zero sum game is, let's understand how to solve this problem. I encountered this problem while solving [Stone Game 2](https://leetcode.com/problems/stone-game-ii/). It was quite difficult for me to solve before understanding the algorithm for solving it. It is good to go through the DP tree of this problem. 
 
 You can indetify a zero-sum problem by looking at how the players are playing. Let me present you with the problem:
@@ -63,5 +66,6 @@ public:
 };
 ```
 
-#### Main Elements
-1. Payoff measurement: fucntion or table
+### Main Elements
+---
+1. Payoff measurement: function or table

@@ -149,7 +149,7 @@ Space: Recursion stack: O(V)
 
 #### 1.5.1 [Single Source] Dijkstra's Algorithms
 Type of Grapth: weighted non-negative edges
-Single source to all edges. Start with an array containing distance, for the source distance is zero, else it is infinity. 
+Single source to all edges. Start with an array containing distance, for the source distance is zero, else it is infinity. Push the calcualted distance in the pq.
 Use a priority queue and run BFS and collect the distances.
 O(V+E*LogV)
 

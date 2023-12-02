@@ -153,6 +153,35 @@ Single source to all edges. Start with an array containing distance, for the sou
 Use a priority queue and run BFS and collect the distances.
 O(V+E*LogV)
 
+```
+Weighted dirceted graph.
+Graph storage: n1: [{n2, w1}...]
+vector<int> djk(int src, unordered_map<int, vector<pair<int, int>>> &graph, int n) {
+        vector<int> dis = vector<long long int>(n, LONG_MAX);
+        vector<bool> vis = vector<bool>(n, false);
+
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq; //minHeap
+        pq.push({0, src});
+        dis[src] = 0;
+
+        while(!pq.empty()) {
+            auto top = pq.top(); pq.pop();
+            if(vis[top.second]) continue; //saves TLE -> means if we have already earlier put the nbrs in the queue, that will mean they are already present in the queue with the shorter distance.
+
+            for(auto nbr: graph[top.second]) {
+                if(vis[nbr.first] == false && dis[nbr.first] > top.first + nbr.second) {
+                    dis[nbr.first] = top.first + nbr.second;
+                    pq.push({dis[nbr.first], nbr.first});
+                }
+            }
+        
+            vis[top.second] = true;
+        }
+
+        return dis;
+    }
+```
+
 #### 1.5.2 [Single Source] Bellman Ford
 
 Type of graph: Weighted, negative too

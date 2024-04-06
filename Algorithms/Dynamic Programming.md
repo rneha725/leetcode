@@ -1,23 +1,28 @@
-### DP with recursion
-#### Recursion part
+## DP with recursion
+### Indetifying a DP problem
+
+### Solving a DP Problem
+### Tabulation -> recommended
+Step 1. Come with the dimansions and the representation of each dimention. You can create a different matrix once dimesions are decided.(let's call this matrix `dp`). Note that `dp(i,j)` will solve the `problem-in-hand` for `(i,j)` cell.
+Step 2. After that, try to create a formula for a generic index considering it is reprensenting a sub-solution.
+Step 3. Once formula is created, try to fill up the base cases in `dp`, for example sometimes is it straightforward to solve for first row, col or diagonal elements. (for 1D dp problems it would mean solving for first or last elements. Crux is to solve for straightforward values). According to the formula, try to understand cells needs to be filled for a generic solution.
+Step 4. Once this is done, using these filled values run the algorithm to solve for the target case, where we are trying to reach a cell in dp. (The targets could be different too, in most cases to reach that we might need to comletely fill `dp`)
+  
+Example: [Minimum Path Sum](https://leetcode.com/problems/minimum-path-sum/?envType=study-plan-v2&envId=top-interview-150)
+```
+Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right, which minimizes the sum of all numbers along its path.
+
+Note: You can only move either down or right at any point in time.
+```
+Step 1. For a generic solultion, we only need two dimensions, one representing row, and other, column of the input. We will create `dp(mxn)`. Here `dp(i,j)` represents, minimum path sum from top-left corner to the index `(i,j)`.
+Step 2. Use dry running the formula as many as times you want, key is to get the confidence on the formula. Formula for the problem: `dp[i][j] = min(dp[i][j - 1] + grid[i][j], dp[i - 1][j] + grid[i][j]);`
+Step 3. Base cases are the first row and column. So we have filled the first row and column with the cumulative sum from the input matrix.
+Step 4. Use the formula starting from `row=1` and `col=1` and fill matrix `dp`. Result will be `dp[m - 1][n - 1]`
+
+#### Recursive solution
+Notice that `node->val` is only repreenting the current node's contribution. And operator `+` might mean any mathematical operation. 
 The perfect way to right a recusive solution is to imagine a function which returns or manipulates the value we are interested in. Then imagine a recursion tree. Each function call represents a node in this tree and might be returning something. Generally the output of a function is:
 
 `contribution of the current node + (contribution of the subtree nodes)` =>
 `node->val + node->left->val + node->left->left->val.... + node->right->val + node->right->left->val...` =>
 `node->val + function on the subtrees`
-
-Notive that `node->val` is only repreenting the current node's contribution. And operator `+` might mean any mathematical operation. 
-
-### Tabulation
-DP -> Tabulation
-
-#### Base case
-Make sure you have the base case covered to get to the leaf nodes of the tree and return.
-
-```
-Create a k-dimensional DP array, where k is the number of arguments in your top-down solution. These are the parameters that define each DP state, and the length of each dimension in the DP array should be large enough to contain all possible values.
-Create a series of nested for-loops to iterate over all of the possible DP states. Make sure to adjust the direction of iteration according to the base cases, you want to visit the base case first. Sometimes this requires a little bit of critical thinking, but with practice selecting the correct order in which to iterate over the states will become easier.
-Copy and paste everything from your top-down recursive function into the innermost for-loop. (Yes it is often as easy as that)
-Anywhere you have return some_value change that to dp[i][j][k] = some_value and then continue. Here, i, j, and k are just the variables from your for loop that define the current dp state.
-Change all calls to the recursive function from dp(0, 0, 0) to dp[0][0][0] (be mindful when you create your DP array, it makes things easier if you have each dimension be in the same order as your variables in the original recursive function, i.e. if your top down approach was dp(index, score) you want your array to be dp[index][score])
-```

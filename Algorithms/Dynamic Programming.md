@@ -1,8 +1,11 @@
 ## DP with recursion
-### Indetifying a DP problem
+### Step 1. Indetifying a DP problem
 
-### Solving a DP Problem
-### Tabulation -> recommended -> Bottom to top DP
+<details>
+<summary><h3>Step 2. Solving a DP Problem</h3></summary>
+<details>
+<summary><h4> Tabulation -> recommended -> Bottom to top DP </h4></summary>
+------
 Step 1. Come with the dimansions and the representation of each dimention. You can create a different matrix once dimesions are decided.(let's call this matrix `dp`). Note that `dp(i,j)` will solve the `problem-in-hand` for `(i,j)` cell.
 Step 2. After that, try to create a formula for a generic index considering it is reprensenting a sub-solution.
 Step 3. Once formula is created, try to fill up the base cases in `dp`, for example sometimes is it straightforward to solve for first row, col or diagonal elements. (for 1D dp problems it would mean solving for first or last elements. Crux is to solve for straightforward values). According to the formula, try to understand cells needs to be filled for a generic solution.
@@ -19,10 +22,17 @@ Step 2. Use dry running the formula as many as times you want, key is to get the
 Step 3. Base cases are the first row and column. So we have filled the first row and column with the cumulative sum from the input matrix.
 Step 4. Use the formula starting from `row=1` and `col=1` and fill matrix `dp`. Result will be `dp[m - 1][n - 1]`
 
-#### Recursive solution - Top to bottom
+</details>
+<details>
+<summary><h4>Recursive solution - Top to bottom</h4></summary>
+------
 Notice that `node->val` is only repreenting the current node's contribution. And operator `+` might mean any mathematical operation. 
 The perfect way to right a recusive solution is to imagine a function which returns or manipulates the value we are interested in. Then imagine a recursion tree. Each function call represents a node in this tree and might be returning something. Generally the output of a function is:
 
 `contribution of the current node + (contribution of the subtree nodes)` =>
 `node->val + node->left->val + node->left->left->val.... + node->right->val + node->right->left->val...` =>
 `node->val + function on the subtrees`
+
+</details>
+
+</details>

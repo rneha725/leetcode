@@ -1,7 +1,9 @@
 
 
 ### Step 1. Indetifying a DP problem
-DP requires the optimal substructure, that means if we solve for a sub problem, we need to find the optimal solution for the subproblem too. DP also requires to have overlapping sub-solutions.
+- Overlapping subproblmes
+- Optimal substructure
+
 
 <details open>
 <summary><h3>Step 2. Solving a DP Problem</h3></summary>

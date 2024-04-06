@@ -1,4 +1,3 @@
-## DP with recursion
 ### Step 1. Indetifying a DP problem
 
 <details open>

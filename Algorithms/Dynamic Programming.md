@@ -1,4 +1,4 @@
-
+- [ ] Hypothesis: DP is an optimal form of backtracking.
 
 ### Step 1. Indetifying a DP problem
 - Overlapping subproblmes

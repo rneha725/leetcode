@@ -1,1 +1,2 @@
 - [ ] [maximum-number-of-points-from-grid-queries](https://leetcode.com/problems/maximum-number-of-points-from-grid-queries)
+ - Posted on dicsuss: [Link](https://leetcode.com/discuss/interview-question/5003561/Can-someone-please-help-me-understand-why-this-code-is-failiing)

@@ -12,4 +12,5 @@ Foundational problems and how to solve them
 ---
 One problem I see with the above, although it will work for bottom-up approach, where all the leaf nodes will reach the solution, for recursive solution we don't do that. 
 If in the dp recursion tree, only the leaf will have the answer for the path taken, creating memoization will require changing the algo.
-For memoization, it is essential that a node returns what is solves, basically solution of the sub-problem
+For memoization, it is essential that a node returns what is solves, basically solution of the sub-problem.
+To see this, just call the recursive function for the last index and see how it behaves.

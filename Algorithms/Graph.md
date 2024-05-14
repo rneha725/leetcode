@@ -219,3 +219,22 @@ For a graph with V vertices E edges, Kruskal's algorithm runs in O(E log V) time
 Prim's algorithm is significantly faster in the limit when you've got a really dense graph with many more edges than vertices. Kruskal performs better in typical situations (sparse graphs) because it uses simpler data structures.
 
 
+### 1.6 LCA
+Longest common ancestor in a binary tree (can be generalized to n-ary tree). It uses dfs to do this
+
+Pseudo code:
+```cpp
+Ptr getLCA(root, node1, node2) {
+	if(!root || root == node1 || root == node2) return root;
+	Ptr left = getLCA(root->left, node1, node2);
+	Ptr right = getLCA(root->right, node1, node2);
+	if(left && right) return root;
+	return left ? left: right;
+}
+```
+Complexity: O(n)
+
+Take an example to understand this.
+The crux is, the subtree which does not contain either p or q will return NULL. If root is p/q, it will be retuned and consequntly, left and right will be non-null and the common root will be returned.
+It is more about how two sub-trees which contain the node1 and node2 are returning the nodes in the path. And also, null is returned when subtree does not contain the nodes.
+

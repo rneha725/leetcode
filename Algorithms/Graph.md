@@ -10,10 +10,19 @@
 Combines disjoint set.
 
 
-In union find, one of the tricky part is to optimize it. So, for optimizing, we can try to keep the root trees as short as possible. This will optimize the find operation. 
-Also, while we perform Union, we can try to connect in a such a way that the resultant tree has the minimum height. This can be done by recording the depth as Rank hashmap. If the `Rank[x] > Rank[y]` => we need to make the `y` tree as the subtree of `x` => no change in rank for x as the height is same. This is true if we exhange x and y. Although, when the heights are same, whatever us chosen as the root will have its rank increased.
+In union find, one of the tricky part is to optimize it. So, for optimizing, 
+we can try to keep the root trees as short as possible. This will optimize 
+the find operation. 
+Also, while we perform Union, we can try to connect in a such a way that the 
+resultant tree has the minimum height. This can be done by recording the depth 
+as Rank hashmap. If the `Rank[x] > Rank[y]` => we need to make the `y` tree as 
+the subtree of `x` => no change in rank for x as the height is same. This is true 
+if we exhange x and y. Although, when the heights are same, whatever us chosen 
+as the root will have its rank increased.
 
-The complexity of the Union-Find algorithm can be analyzed as follows: the constructor initializes the data structure requires O (N) time and space complexity. However, the time complexity required for union,connected and count is O (1).
+The complexity of the Union-Find algorithm can be analyzed as follows: the constructor 
+initializes the data structure requires O (N) time and space complexity. However, 
+the time complexity required for union,connected and count is O (1).
 
 ```cpp
 unordered_map<int, int> root; //1. Initialize each element as its own root
@@ -22,6 +31,7 @@ unordered_map<int, int> rank; //1. Initialize each element with depth or rank as
 void Union(int x, int y) { //don't use `union` as it is a keyword
     int root_x = find(x);
     int root_y = find(y);
+    if(root_x == root_y) return;
     // this is called union by rank
     if(rank[x] == rank[y]) {
         rank[root_x]++;

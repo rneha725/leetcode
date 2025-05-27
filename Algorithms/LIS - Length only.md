@@ -22,3 +22,5 @@ int lengthOfLIS(vector<int>& nums) {
         return res.size();
     }
 ```
+
+This only returns the length of the LIS and not the LIS itself

@@ -1,2 +1,2 @@
-- LIS
-- TopSort
+- LIS [LIS](./LIS%20-%20Length%20only.md)
+- [TopSort](./TopSort.md)

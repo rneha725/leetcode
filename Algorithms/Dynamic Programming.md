@@ -1,42 +1,217 @@
-- [ ] Hypothesis: DP is an optimal form of backtracking.
+Cool, here’s an extended version of your DP “master notes,” now with **5 LeetCode links (medium / hard)** per pattern (when applicable). Use these as practice anchors. I’ll keep the structure clean so you can directly convert into your notes.
 
-### Step 1. Indetifying a DP problem
-- Overlapping subproblmes
-- Optimal substructure
+---
 
+# 🧠 DP Patterns + Definitions + Core Recurrence + Sample LeetCode Problems
 
-<details open>
-<summary><h3>Step 2. Solving a DP Problem</h3></summary>
-<details>
-<summary><h4> Tabulation -> recommended -> Bottom to top DP </h4></summary>
+Dynamic Programming = breaking down a problem into overlapping subproblems + storing (memoizing / tabulating) to avoid recomputation.
 
-  - Step 1. Come with the dimansions and the representation of each dimention. You can create a different matrix once dimesions are decided.(let's call this matrix `dp`). Note that `dp(i,j)` will solve the `problem-in-hand` for `(i,j)` cell.
+For each pattern:
 
-  - Step 2. After that, try to create a formula for a generic index considering it is reprensenting a sub-solution.
-  - Step 3. Once formula is created, try to fill up the base cases in `dp`, for example sometimes is it straightforward to solve for first row, col or diagonal elements. (for 1D dp problems it would mean solving for first or last elements. Crux is to solve for straightforward values). According to the formula, try to understand cells needs to be filled for a generic solution.
-  - Step 4. Once this is done, using these filled values run the algorithm to solve for the target case, where we are trying to reach a cell in dp. (The targets could be different too, in most cases to reach that we might need to comletely fill `dp`)
-  
-  #### Example: [Minimum Path Sum](https://leetcode.com/problems/minimum-path-sum/?envType=study-plan-v2&envId=top-interview-150)
+1. Definition / when it applies
+2. Key recurrence / state design skeleton
+3. Example LeetCode problems (medium / hard)
+
+---
+
+## 1. 1D DP (Linear Sequence Decisions)
+
+**Definition / When to use**
+Problems where you're making a choice along a one-dimensional sequence (array, steps, prefix), and the state at index `i` depends on a fixed small number of previous states.
+
+**State / Recurrence Skeleton**
+Let `dp[i]` = best answer considering up to index `i` (or “ending at i”, depending on problem).
+Then
+
 ```
-Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right, which minimizes the sum of all numbers along its path.
-
-Note: You can only move either down or right at any point in time.
+dp[i] = f(dp[i−1], dp[i−2], …, maybe plus some cost/choice)
 ```
 
-- Step 1. For a generic solultion, we only need two dimensions, one representing row, and other, column of the input. We will create `dp(mxn)`. Here `dp(i,j)` represents, minimum path sum from top-left corner to the index `(i,j)`.
-- Step 2. Use dry running the formula as many as times you want, key is to get the confidence on the formula. Formula for the problem: `dp[i][j] = min(dp[i][j - 1] + grid[i][j], dp[i - 1][j] + grid[i][j]);`
-- Step 3. Base cases are the first row and column. So we have filled the first row and column with the cumulative sum from the input matrix.
-- Step 4. Use the formula starting from `row=1` and `col=1` and fill matrix `dp`. Result will be `dp[m - 1][n - 1]`
-</details>
-<details>
-<summary><h4>Recursive solution - Top to bottom</h4></summary>
-Notice that `node->val` is only repreenting the current node's contribution. And operator `+` might mean any mathematical operation. 
-The perfect way to right a recusive solution is to imagine a function which returns or manipulates the value we are interested in. Then imagine a recursion tree. Each function call represents a node in this tree and might be returning something. Generally the output of a function is:
+Typical “take / skip” or “extend / break” logic.
 
-`contribution of the current node + (contribution of the subtree nodes)` =>
-`node->val + node->left->val + node->left->left->val.... + node->right->val + node->right->left->val...` =>
-`node->val + function on the subtrees`
+**LeetCode practice (Medium / Hard)**
+Here are problems that map to 1D DP:
 
-</details>
+1. [Jump Game II (Hard / Medium variant)](https://leetcode.com/problems/jump-game-ii/)
+2. [Best Time to Buy and Sell Stock with Cooldown](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/)
+3. [House Robber II](https://leetcode.com/problems/house-robber-ii/)
+4. [Decode Ways II](https://leetcode.com/problems/decode-ways-ii/)
+5. [Coin Change (Medium)](https://leetcode.com/problems/coin-change/)
 
-</details>
+---
+
+## 2. 2D Grid DP
+
+**Definition / When to use**
+Problems on matrices/grids where the solution to a cell depends on its neighbors (usually above, left, sometimes diagonal or more). Typically path counting, min path sum, or constraints on movements.
+
+**State / Recurrence Skeleton**
+Let `dp[r][c] = best value (or count) to reach cell (r, c)`.
+Transition often:
+
+```
+dp[r][c] = grid[r][c] + min(dp[r−1][c], dp[r][c−1])  
+(or sum, or count = sum of ways from top + left)
+```
+
+You need base cases (first row, first column).
+
+**LeetCode practice (Medium / Hard)**
+
+1. [Unique Paths II](https://leetcode.com/problems/unique-paths-ii/)
+2. [Minimum Path Sum (Medium)](https://leetcode.com/problems/minimum-path-sum/)
+3. [Dungeon Game (Hard)](https://leetcode.com/problems/dungeon-game/)
+4. [Cherry Pickup II (Hard)](https://leetcode.com/problems/cherry-pickup-ii/)
+5. [Longest Increasing Path in a Matrix (Medium / Hard)](https://leetcode.com/problems/longest-increasing-path-in-a-matrix/)
+
+---
+
+## 3. Subsequence / String DP
+
+**Definition / When to use**
+When you operate on sequences/strings and need to find a subsequence, or compare two sequences, allowing skipping or matching. Common in LCS, edit distance, palindromic subsequences, etc.
+
+**State / Recurrence Skeleton**
+Often: `dp[i][j]` = best result using first `i` of A and first `j` of B (or same string in palindromic dp).
+Transfer:
+
+* If match: `dp[i][j] = 1 + dp[i−1][j−1]`
+* Else: `dp[i][j] = max(dp[i−1][j], dp[i][j−1])`
+* For edit distance: `dp[i][j] = 1 + min(dp[i−1][j], dp[i][j−1], dp[i−1][j−1])` if mismatch
+* For palindromic substring / partitioning: interval / expand around center style but often DP subtype.
+
+**LeetCode practice (Medium / Hard)**
+
+1. [Longest Common Subsequence (Medium)](https://leetcode.com/problems/longest-common-subsequence/)
+2. [Edit Distance (Hard)](https://leetcode.com/problems/edit-distance/)
+3. [Distinct Subsequences (Hard)](https://leetcode.com/problems/distinct-subsequences/)
+4. [Minimum Insertions to Form a Palindrome (Medium / Hard variant)](https://leetcode.com/problems/minimum-insertion-to-form-a-string/) *(or similar)*
+5. [Word Break II (Hard)](https://leetcode.com/problems/word-break-ii/)
+
+---
+
+## 4. Knapsack / Subset DP
+
+**Definition / When to use**
+When you need to pick some items (or subset) under a constraint (sum, capacity) to maximize or satisfy something. Typical “take or not take” paradigm.
+
+**State / Recurrence Skeleton**
+Let `dp[i][w] = best achievable using first `i`items with “capacity / sum limit”`w`.
+Then:
+
+```
+dp[i][w] = max(dp[i−1][w], value[i] + dp[i−1][w − weight[i]])
+```
+
+For subset-sum / boolean version:
+
+```
+dp[i][s] = dp[i−1][s] OR dp[i−1][s − arr[i]]
+```
+
+You can often optimize to 1D (reverse iterate) when memory matters.
+
+**LeetCode practice (Medium / Hard)**
+
+1. [Partition Equal Subset Sum (Medium)](https://leetcode.com/problems/partition-equal-subset-sum/)
+2. [Target Sum (Medium)](https://leetcode.com/problems/target-sum/)
+3. [Ones and Zeroes (Medium)](https://leetcode.com/problems/ones-and-zeroes/)
+4. [Profitable Schemes (Hard)](https://leetcode.com/problems/profitable-schemes/)
+5. [Minimum Cost to Merge Stones (Hard)](https://leetcode.com/problems/minimum-cost-to-merge-stones/)
+
+---
+
+## 5. Interval DP
+
+**Definition / When to use**
+Problems where the solution for an interval `[l, r]` depends on splitting it into subintervals, e.g., matrix chain multiplication, merging, bursting balloons.
+
+**State / Recurrence Skeleton**
+Define `dp[l][r]` = optimal answer for interval from `l` to `r`.
+Then you try all splits:
+
+```
+dp[l][r] = min / max over k in [l, r−1] { dp[l][k] + dp[k+1][r] + cost(l, k, r) }
+```
+
+**LeetCode practice (Medium / Hard)**
+
+1. [Burst Balloons (Hard)](https://leetcode.com/problems/burst-balloons/)
+2. [Minimum Cost to Merge Stones (Hard)](https://leetcode.com/problems/minimum-cost-to-merge-stones/)
+3. [Strange Printer (Hard)](https://leetcode.com/problems/strange-printer/)
+4. [Palindrome Partitioning II (Hard / tricky)](https://leetcode.com/problems/palindrome-partitioning-ii/)
+5. [Minimum Score Triangulation of Polygon (Hard)](https://leetcode.com/problems/minimum-score-triangulation-of-polygon/)
+
+---
+
+## 6. Digit DP
+
+**Definition / When to use**
+When you’re counting or finding numbers ≤ N that satisfy some property tied to digits (sum, parity, adjacency, etc.).
+
+**State / Recurrence Skeleton**
+Typical state: `dp[pos][tight][state...]`
+
+* `pos` = current digit index
+* `tight` = whether you've matched prefix exactly or are already below
+* Additional state variables (sum, last digit, count of certain things)
+  Transitions: choose a digit `d` at `pos` constrained by `tight`.
+
+**LeetCode practice (Medium / Hard)**
+Digit DP problems are fewer on LeetCode, but here are some:
+
+1. [Count Numbers with Unique Digits (Medium / Hard variant)](https://leetcode.com/problems/count-numbers-with-unique-digits/)
+2. [Numbers With Repeated Digits (Hard)](https://leetcode.com/problems/numbers-with-repeated-digits/)
+3. [Digit Count in Range (Hard variant)](https://leetcode.com/problems/number-of-digit-one/)
+4. [Super Palindromes (Hard)](https://leetcode.com/problems/super-palindromes/)
+5. [Strobogrammatic Number III (Hard)](https://leetcode.com/problems/strobogrammatic-number-iii/)
+
+---
+
+## 7. DP on Trees
+
+**Definition / When to use**
+When you have a tree / graph structure and you need to compute something for each node based on its children, often combining child results.
+
+**State / Recurrence Skeleton**
+You do a DFS (post-order). Let `dp[u]` represent some best result for subtree rooted at `u`, often including different states (like “take node,” “not take node”).
+Then:
+
+```
+dp[u] = combine( dp[child1], dp[child2], …, with / without u logic )
+```
+
+**LeetCode practice (Medium / Hard)**
+
+1. [House Robber III (Medium)](https://leetcode.com/problems/house-robber-iii/)
+2. [Binary Tree Maximum Path Sum (Hard)](https://leetcode.com/problems/binary-tree-maximum-path-sum/)
+3. [Sum of Distances in Tree (Hard)](https://leetcode.com/problems/sum-of-distances-in-tree/)
+4. [Delete Tree Node / Tree DP variants (harder ones)] *you can pick from discussion lists*
+5. [Longest Univalue Path (Hard / Medium)](https://leetcode.com/problems/longest-univalue-path/)
+
+---
+
+## 8. Bitmask DP
+
+**Definition / When to use**
+When the state involves subsets of elements and you want to represent them compactly as bitmasks, e.g. traveling salesman, assignment, subsets with constraints.
+
+**State / Recurrence Skeleton**
+Let `dp[mask][i]` = best result for subset `mask` ending at element `i` (or covering those bits).
+Then:
+
+```
+dp[mask][i] = min / max over j in mask\{i} { dp[mask without i][j] + cost(j,i) }
+```
+
+**LeetCode practice (Medium / Hard)**
+
+1. [Traveling Salesman / bitmask style ones (LeetCode “Bitmask DP” problems) — e.g. “Minimum Cost to Visit All Points” variant]
+2. [Partition to K Equal Sum Subsets (Medium / Hard)](https://leetcode.com/problems/partition-to-k-equal-sum-subsets/)
+3. [Bitwise AND of Subsets / Subset enumeration ones from advanced lists]
+4. [Smallest Sufficient Team (Hard)](https://leetcode.com/problems/smallest-sufficient-team/)
+5. [“Assignment” / “Matching” problems using mask + DP]
+
+---
+
+If you want, I can prepare a **PDF / neatly formatted note** combining all this plus space for your own comments, or send you a set of **worked example solutions** (with code + commentary) for 2–3 from each category. Which version do you want me to send next?

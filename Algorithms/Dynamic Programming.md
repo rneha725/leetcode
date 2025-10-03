@@ -1,209 +1,341 @@
-# DP Patterns + Definitions + Core Recurrence + Sample LeetCode Problems
+# Dynamic Programming Master Notes – Augmented
 
-Dynamic Programming = breaking down a problem into overlapping subproblems + storing (memoizing / tabulating) to avoid recomputation.
+Dynamic Programming = breaking problems into overlapping subproblems + storing results to avoid recomputation.
 
-For each pattern:
+Each pattern below has:
 
-1. Definition / when it applies
-2. Key recurrence / state design skeleton
-3. Example LeetCode problems (medium / hard)
-
----
-
-## 1. 1D DP (Linear Sequence Decisions)
-
-**Definition / When to use**
-Problems where you're making a choice along a one-dimensional sequence (array, steps, prefix), and the state at index `i` depends on a fixed small number of previous states.
-
-**State / Recurrence Skeleton**
-Let `dp[i]` = best answer considering up to index `i` (or “ending at i”, depending on problem).
-Then
-
-```
-dp[i] = f(dp[i−1], dp[i−2], …, maybe plus some cost/choice)
-```
-
-Typical “take / skip” or “extend / break” logic.
-
-**LeetCode practice (Medium / Hard)**
-Here are problems that map to 1D DP:
-
-1. [Jump Game II (Hard / Medium variant)](https://leetcode.com/problems/jump-game-ii/)
-2. [Best Time to Buy and Sell Stock with Cooldown](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/)
-3. [House Robber II](https://leetcode.com/problems/house-robber-ii/)
-4. [Decode Ways II](https://leetcode.com/problems/decode-ways-ii/)
-5. [Coin Change (Medium)](https://leetcode.com/problems/coin-change/)
+* **Definition** – when it applies
+* **State / Recurrence Skeleton**
+* **How to solve** – steps, recursion vs tabulation
+* **Code skeleton** – minimal template
+* **LeetCode Practice** – 5 medium/hard problems
 
 ---
 
-## 2. 2D Grid DP
+## 1. **1D DP – Linear Sequence Decisions**
 
-**Definition / When to use**
-Problems on matrices/grids where the solution to a cell depends on its neighbors (usually above, left, sometimes diagonal or more). Typically path counting, min path sum, or constraints on movements.
+**Definition**
+Problems along a linear sequence where state at `i` depends on 1–2 (or few) previous states. Examples: Fibonacci, climbing stairs, coin change.
 
-**State / Recurrence Skeleton**
-Let `dp[r][c] = best value (or count) to reach cell (r, c)`.
-Transition often:
+**State / Recurrence**
 
 ```
-dp[r][c] = grid[r][c] + min(dp[r−1][c], dp[r][c−1])  
-(or sum, or count = sum of ways from top + left)
+dp[i] = f(dp[i-1], dp[i-2], …)
 ```
 
-You need base cases (first row, first column).
+**How to Solve**
 
-**LeetCode practice (Medium / Hard)**
+1. Define `dp[i]` = best answer up to index `i`.
+2. Base cases: `dp[0]`, maybe `dp[1]`.
+3. Transition: depends on last 1–2 elements.
+4. Approach: small n → recursion+memo, else tabulation. Optimize space if needed.
 
-1. [Unique Paths II](https://leetcode.com/problems/unique-paths-ii/)
-2. [Minimum Path Sum (Medium)](https://leetcode.com/problems/minimum-path-sum/)
-3. [Dungeon Game (Hard)](https://leetcode.com/problems/dungeon-game/)
-4. [Cherry Pickup II (Hard)](https://leetcode.com/problems/cherry-pickup-ii/)
-5. [Longest Increasing Path in a Matrix (Medium / Hard)](https://leetcode.com/problems/longest-increasing-path-in-a-matrix/)
+**Code Skeleton**
+
+```python
+dp[0] = base
+for i in range(1,n):
+    dp[i] = f(dp[i-1], dp[i-2], ...)
+return dp[n-1]
+```
+
+**LeetCode Practice**
+
+* [Jump Game II](https://leetcode.com/problems/jump-game-ii/)
+* [Best Time to Buy and Sell Stock with Cooldown](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/)
+* [House Robber II](https://leetcode.com/problems/house-robber-ii/)
+* [Decode Ways II](https://leetcode.com/problems/decode-ways-ii/)
+* [Coin Change](https://leetcode.com/problems/coin-change/)
 
 ---
 
-## 3. Subsequence / String DP
+## 2. **2D Grid DP**
 
-**Definition / When to use**
-When you operate on sequences/strings and need to find a subsequence, or compare two sequences, allowing skipping or matching. Common in LCS, edit distance, palindromic subsequences, etc.
+**Definition**
+Problems on grids/matrices; solution of a cell depends on neighbors (usually top/left). Examples: unique paths, min path sum, obstacle grid.
 
-**State / Recurrence Skeleton**
-Often: `dp[i][j]` = best result using first `i` of A and first `j` of B (or same string in palindromic dp).
-Transfer:
+**State / Recurrence**
 
-* If match: `dp[i][j] = 1 + dp[i−1][j−1]`
-* Else: `dp[i][j] = max(dp[i−1][j], dp[i][j−1])`
-* For edit distance: `dp[i][j] = 1 + min(dp[i−1][j], dp[i][j−1], dp[i−1][j−1])` if mismatch
-* For palindromic substring / partitioning: interval / expand around center style but often DP subtype.
+```
+dp[r][c] = grid[r][c] + f(dp[r-1][c], dp[r][c-1])
+```
 
-**LeetCode practice (Medium / Hard)**
+**How to Solve**
 
-1. [Longest Common Subsequence (Medium)](https://leetcode.com/problems/longest-common-subsequence/)
-2. [Edit Distance (Hard)](https://leetcode.com/problems/edit-distance/)
-3. [Distinct Subsequences (Hard)](https://leetcode.com/problems/distinct-subsequences/)
-4. [Minimum Insertions to Form a Palindrome (Medium / Hard variant)](https://leetcode.com/problems/minimum-insertion-to-form-a-string/) *(or similar)*
-5. [Word Break II (Hard)](https://leetcode.com/problems/word-break-ii/)
+1. State = `dp[r][c]` = best answer to reach `(r,c)`.
+2. Base: first row/column.
+3. Transition: top, left, maybe diagonal.
+4. Approach: tabulation preferred; memoization works for DFS style.
+
+**Code Skeleton**
+
+```python
+dp[0][0] = grid[0][0]
+for r in range(rows):
+    for c in range(cols):
+        if r>0: dp[r][c] = max(dp[r][c], dp[r-1][c]+grid[r][c])
+        if c>0: dp[r][c] = max(dp[r][c], dp[r][c-1]+grid[r][c])
+return dp[rows-1][cols-1]
+```
+
+**LeetCode Practice**
+
+* [Unique Paths II](https://leetcode.com/problems/unique-paths-ii/)
+* [Minimum Path Sum](https://leetcode.com/problems/minimum-path-sum/)
+* [Dungeon Game](https://leetcode.com/problems/dungeon-game/)
+* [Cherry Pickup II](https://leetcode.com/problems/cherry-pickup-ii/)
+* [Longest Increasing Path in a Matrix](https://leetcode.com/problems/longest-increasing-path-in-a-matrix/)
 
 ---
 
-## 4. Knapsack / Subset DP
+## 3. **Subsequence DP (LIS / LCS / Edit Distance)**
 
-**Definition / When to use**
-When you need to pick some items (or subset) under a constraint (sum, capacity) to maximize or satisfy something. Typical “take or not take” paradigm.
+**Definition**
+Problems on sequences/strings: subsequence comparisons, palindromes, edit distance.
 
-**State / Recurrence Skeleton**
-Let `dp[i][w] = best achievable using first `i`items with “capacity / sum limit”`w`.
-Then:
+**State / Recurrence**
 
 ```
-dp[i][w] = max(dp[i−1][w], value[i] + dp[i−1][w − weight[i]])
+dp[i][j] = if match: dp[i-1][j-1]+1
+           else: max(dp[i-1][j], dp[i][j-1])
 ```
 
-For subset-sum / boolean version:
+For edit distance: consider insert/delete/replace.
 
+**How to Solve**
+
+1. Define `dp[i][j]` = best result for first `i` of A and `j` of B.
+2. Base: `dp[0][*]=0`, `dp[*][0]=0`.
+3. Approach: small n → recursion+memo, else tabulation preferred.
+4. For LIS: O(n²) DP or O(n log n) with binary search.
+
+**Code Skeleton**
+
+```python
+for i in range(1,n+1):
+    for j in range(1,m+1):
+        if A[i-1] == B[j-1]:
+            dp[i][j] = dp[i-1][j-1]+1
+        else:
+            dp[i][j] = max(dp[i-1][j], dp[i][j-1])
 ```
-dp[i][s] = dp[i−1][s] OR dp[i−1][s − arr[i]]
-```
 
-You can often optimize to 1D (reverse iterate) when memory matters.
+**LeetCode Practice**
 
-**LeetCode practice (Medium / Hard)**
-
-1. [Partition Equal Subset Sum (Medium)](https://leetcode.com/problems/partition-equal-subset-sum/)
-2. [Target Sum (Medium)](https://leetcode.com/problems/target-sum/)
-3. [Ones and Zeroes (Medium)](https://leetcode.com/problems/ones-and-zeroes/)
-4. [Profitable Schemes (Hard)](https://leetcode.com/problems/profitable-schemes/)
-5. [Minimum Cost to Merge Stones (Hard)](https://leetcode.com/problems/minimum-cost-to-merge-stones/)
+* [Longest Common Subsequence](https://leetcode.com/problems/longest-common-subsequence/)
+* [Edit Distance](https://leetcode.com/problems/edit-distance/)
+* [Distinct Subsequences](https://leetcode.com/problems/distinct-subsequences/)
+* [Minimum Insertions to Form a Palindrome](https://leetcode.com/problems/minimum-insertion-to-form-a-string/)
+* [Word Break II](https://leetcode.com/problems/word-break-ii/)
 
 ---
 
-## 5. Interval DP
+## 4. **Knapsack / Subset DP**
 
-**Definition / When to use**
-Problems where the solution for an interval `[l, r]` depends on splitting it into subintervals, e.g., matrix chain multiplication, merging, bursting balloons.
+**Definition**
+Pick items under constraints to maximize/minimize. Examples: 0/1 knapsack, subset sum, partition problem.
 
-**State / Recurrence Skeleton**
-Define `dp[l][r]` = optimal answer for interval from `l` to `r`.
-Then you try all splits:
+**State / Recurrence**
 
 ```
-dp[l][r] = min / max over k in [l, r−1] { dp[l][k] + dp[k+1][r] + cost(l, k, r) }
+dp[i][w] = max(dp[i-1][w], val[i]+dp[i-1][w-wt[i]])
 ```
 
-**LeetCode practice (Medium / Hard)**
+**How to Solve**
 
-1. [Burst Balloons (Hard)](https://leetcode.com/problems/burst-balloons/)
-2. [Minimum Cost to Merge Stones (Hard)](https://leetcode.com/problems/minimum-cost-to-merge-stones/)
-3. [Strange Printer (Hard)](https://leetcode.com/problems/strange-printer/)
-4. [Palindrome Partitioning II (Hard / tricky)](https://leetcode.com/problems/palindrome-partitioning-ii/)
-5. [Minimum Score Triangulation of Polygon (Hard)](https://leetcode.com/problems/minimum-score-triangulation-of-polygon/)
+1. Define state.
+2. Base: `dp[0][*]=0` (or False).
+3. Approach: tabulation standard; recursion+memo possible.
+4. Can optimize space to 1D for large capacity.
+
+**Code Skeleton**
+
+```python
+for i in range(1,n+1):
+    for w in range(capacity,-1,-1):
+        if w >= wt[i]:
+            dp[w] = max(dp[w], val[i]+dp[w-wt[i]])
+```
+
+**LeetCode Practice**
+
+* [Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum/)
+* [Target Sum](https://leetcode.com/problems/target-sum/)
+* [Ones and Zeroes](https://leetcode.com/problems/ones-and-zeroes/)
+* [Profitable Schemes](https://leetcode.com/problems/profitable-schemes/)
+* [Minimum Cost to Merge Stones](https://leetcode.com/problems/minimum-cost-to-merge-stones/)
 
 ---
 
-## 6. Digit DP
+## 5. **Interval DP**
 
-**Definition / When to use**
-When you’re counting or finding numbers ≤ N that satisfy some property tied to digits (sum, parity, adjacency, etc.).
+**Definition**
+Solution for interval `[l,r]` depends on splitting it. Examples: matrix chain multiplication, burst balloons.
 
-**State / Recurrence Skeleton**
-Typical state: `dp[pos][tight][state...]`
+**State / Recurrence**
 
-* `pos` = current digit index
-* `tight` = whether you've matched prefix exactly or are already below
-* Additional state variables (sum, last digit, count of certain things)
-  Transitions: choose a digit `d` at `pos` constrained by `tight`.
+```
+dp[l][r] = min/max(dp[l][k]+dp[k+1][r]+cost)
+```
 
-**LeetCode practice (Medium / Hard)**
-Digit DP problems are fewer on LeetCode, but here are some:
+**How to Solve**
 
-1. [Count Numbers with Unique Digits (Medium / Hard variant)](https://leetcode.com/problems/count-numbers-with-unique-digits/)
-2. [Numbers With Repeated Digits (Hard)](https://leetcode.com/problems/numbers-with-repeated-digits/)
-3. [Digit Count in Range (Hard variant)](https://leetcode.com/problems/number-of-digit-one/)
-4. [Super Palindromes (Hard)](https://leetcode.com/problems/super-palindromes/)
-5. [Strobogrammatic Number III (Hard)](https://leetcode.com/problems/strobogrammatic-number-iii/)
+1. Define state.
+2. Base: `dp[l][l] = single element cost`.
+3. Solve smaller intervals first.
+4. Approach: iterative tabulation preferred.
+
+**Code Skeleton**
+
+```python
+for length in range(2,n+1):
+    for l in range(0,n-length+1):
+        r = l+length-1
+        dp[l][r] = INF
+        for k in range(l,r):
+            dp[l][r] = min(dp[l][r], dp[l][k]+dp[k+1][r]+cost(l,k,r))
+```
+
+**LeetCode Practice**
+
+* [Burst Balloons](https://leetcode.com/problems/burst-balloons/)
+* [Minimum Cost to Merge Stones](https://leetcode.com/problems/minimum-cost-to-merge-stones/)
+* [Strange Printer](https://leetcode.com/problems/strange-printer/)
+* [Palindrome Partitioning II](https://leetcode.com/problems/palindrome-partitioning-ii/)
+* [Minimum Score Triangulation of Polygon](https://leetcode.com/problems/minimum-score-triangulation-of-polygon/)
 
 ---
 
-## 7. DP on Trees
+## 6. **Digit DP**
 
-**Definition / When to use**
-When you have a tree / graph structure and you need to compute something for each node based on its children, often combining child results.
+**Definition**
+Counting numbers ≤ N satisfying digit constraints (sum, adjacency, parity).
 
-**State / Recurrence Skeleton**
-You do a DFS (post-order). Let `dp[u]` represent some best result for subtree rooted at `u`, often including different states (like “take node,” “not take node”).
-Then:
+**State / Recurrence**
 
 ```
-dp[u] = combine( dp[child1], dp[child2], …, with / without u logic )
+dp[pos][tight][state...]
 ```
 
-**LeetCode practice (Medium / Hard)**
+**How to Solve**
 
-1. [House Robber III (Medium)](https://leetcode.com/problems/house-robber-iii/)
-2. [Binary Tree Maximum Path Sum (Hard)](https://leetcode.com/problems/binary-tree-maximum-path-sum/)
-3. [Sum of Distances in Tree (Hard)](https://leetcode.com/problems/sum-of-distances-in-tree/)
-4. [Delete Tree Node / Tree DP variants (harder ones)] *you can pick from discussion lists*
-5. [Longest Univalue Path (Hard / Medium)](https://leetcode.com/problems/longest-univalue-path/)
+1. Define `pos, tight, extra_state`.
+2. Base: `pos==len(digits)` → return 1/0.
+3. Try all digits allowed at pos.
+4. Approach: recursion + memoization.
+
+**Code Skeleton**
+
+```python
+def dfs(pos, tight, state):
+    if pos==len(digits): return 1
+    if memo[pos][tight][state]!=-1: return memo[pos][tight][state]
+    limit = digits[pos] if tight else 9
+    res = 0
+    for d in range(0,limit+1):
+        res += dfs(pos+1, tight and d==limit, new_state)
+    memo[pos][tight][state] = res
+    return res
+```
+
+**LeetCode Practice**
+
+* [Count Numbers with Unique Digits](https://leetcode.com/problems/count-numbers-with-unique-digits/)
+* [Numbers With Repeated Digits](https://leetcode.com/problems/numbers-with-repeated-digits/)
+* [Number of Digit One](https://leetcode.com/problems/number-of-digit-one/)
+* [Super Palindromes](https://leetcode.com/problems/super-palindromes/)
+* [Strobogrammatic Number III](https://leetcode.com/problems/strobogrammatic-number-iii/)
 
 ---
 
-## 8. Bitmask DP
+## 7. **DP on Trees**
 
-**Definition / When to use**
-When the state involves subsets of elements and you want to represent them compactly as bitmasks, e.g. traveling salesman, assignment, subsets with constraints.
+**Definition**
+Compute answers for tree nodes based on children’s DP. Examples: tree diameter, max path sum, independent set.
 
-**State / Recurrence Skeleton**
-Let `dp[mask][i]` = best result for subset `mask` ending at element `i` (or covering those bits).
-Then:
+**State / Recurrence**
 
 ```
-dp[mask][i] = min / max over j in mask\{i} { dp[mask without i][j] + cost(j,i) }
+dp[u] = f(dp[child1], dp[child2], ...)
 ```
 
-**LeetCode practice (Medium / Hard)**
+**How to Solve**
 
-1. [Traveling Salesman / bitmask style ones (LeetCode “Bitmask DP” problems) — e.g. “Minimum Cost to Visit All Points” variant]
-2. [Partition to K Equal Sum Subsets (Medium / Hard)](https://leetcode.com/problems/partition-to-k-equal-sum-subsets/)
-3. [Bitwise AND of Subsets / Subset enumeration ones from advanced lists]
-4. [Smallest Sufficient Team (Hard)](https://leetcode.com/problems/smallest-sufficient-team/)
-5. [“Assignment” / “Matching” problems using mask + DP]
+1. DFS post-order.
+2. Compute dp[u] from children.
+3. Multiple states if “take / not take node”.
+4. Approach: recursion + memoization.
+
+**Code Skeleton**
+
+```python
+def dfs(u,parent):
+    dp[u] = 0 # or [take,not_take]
+    for v in graph[u]:
+        if v!=parent:
+            dfs(v,u)
+            dp[u]+=f(dp[v])
+```
+
+**LeetCode Practice**
+
+* [House Robber III](https://leetcode.com/problems/house-robber-iii/)
+* [Binary Tree Maximum Path Sum](https://leetcode.com/problems/binary-tree-maximum-path-sum/)
+* [Sum of Distances in Tree](https://leetcode.com/problems/sum-of-distances-in-tree/)
+* [Longest Univalue Path](https://leetcode.com/problems/longest-univalue-path/)
+* [Delete Tree Node variants] (discussion / advanced problems)
+
+---
+
+## 8. **Bitmask DP**
+
+**Definition**
+State represents subsets with a mask. Examples: traveling salesman, assignment problem, subset constraints.
+
+**State / Recurrence**
+
+```
+dp[mask][i] = max/min(dp[mask^(1<<i)][j]+cost[j][i])
+```
+
+**How to Solve**
+
+1. Base: single elements mask.
+2. Try adding elements to mask from previous subsets.
+3. Approach: iterative preferred; memoization works.
+
+**Code Skeleton**
+
+```python
+for mask in range(1,1<<n):
+    for i in range(n):
+        if mask & (1<<i):
+            for j in range(n):
+                if mask & (1<<j) and i!=j:
+                    dp[mask][i] = max(dp[mask][i], dp[mask^(1<<i)][j]+cost[j][i])
+```
+
+**LeetCode Practice**
+
+* [Smallest Sufficient Team](https://leetcode.com/problems/smallest-sufficient-team/)
+* [Partition to K Equal Sum Subsets](https://leetcode.com/problems/partition-to-k-equal-sum-subsets/)
+* [Assignment / matching DP problems] (discussion)
+* [Traveling Salesman / bitmask DP]
+* [Other subset enumeration bitmask problems]
+
+---
+
+### ✅ Quick Recap – Approach Summary
+
+| Pattern     | Approach         | Notes                            |
+| ----------- | ---------------- | -------------------------------- |
+| 1D DP       | Tabulation       | Memo works for small n           |
+| 2D Grid     | Tabulation       | DFS + memo possible              |
+| Subsequence | Tabulation       | Memo O(n²)                       |
+| Knapsack    | Tabulation       | Space optimized to 1D            |
+| Interval    | Tabulation       | Solve increasing interval length |
+| Digit       | Recursion + Memo | Tabulation rare                  |
+| Tree        | Recursion        | Post-order DFS                   |
+| Bitmask     | Iterative / Memo | Enumerate masks                  |
+
+

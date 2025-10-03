@@ -150,12 +150,23 @@ dp[i][w] = max(dp[i-1][w], val[i]+dp[i-1][w-wt[i]])
 
 **Code Skeleton**
 
-```python
-for i in range(1,n+1):
-    for w in range(capacity,-1,-1):
-        if w >= wt[i]:
-            dp[w] = max(dp[w], val[i]+dp[w-wt[i]])
+```python// given N, maxWeight, weights and values
+long[,] d = new long[N + 1, maxWeight + 1];
+for (long i = 0; i < N; i++) {
+	for (long w = 0; w <= maxWeight; w++) {                    
+		if (weights[i] <= w) {
+			// Exclude or include
+			d[i + 1, w] = Math.Max(d[i, w], d[i, w - weights[i]] + values[i]);
+		}
+		else {
+			// Exclude
+			d[i + 1, w] = d[i, w];
+		}                    
+	}
+}
 ```
+
+Reference: [Link](https://leetcode.com/discuss/post/1152328/01-knapsack-problem-and-dynamic-programm-4had/)
 
 **LeetCode Practice**
 

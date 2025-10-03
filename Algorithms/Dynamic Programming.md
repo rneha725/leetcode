@@ -168,6 +168,49 @@ for (long i = 0; i < N; i++) {
 
 Reference: [Link](https://leetcode.com/discuss/post/1152328/01-knapsack-problem-and-dynamic-programm-4had/)
 
+That line `d[i + 1, w] = Math.Max(d[i, w], d[i, w - weights[i]] + values[i]);` is the **transition step** in the dynamic programming solution for the **0/1 Knapsack problem**. Let’s break it down piece by piece:
+
+```csharp
+d[i + 1, w] = Math.Max(d[i, w], d[i, w - weights[i]] + values[i]);
+```
+
+### Meaning of each part:
+
+* `d[i, w]`:
+  The **maximum value achievable** using the first `i` items with a knapsack capacity of `w`.
+
+* `d[i + 1, w]`:
+  The **maximum value achievable** using the first `i+1` items with a knapsack capacity of `w`.
+
+* `d[i, w]`:
+  This represents the case where we **do not take item `i`**.
+  So, the best we can do with capacity `w` and items up to `i` is just `d[i, w]`.
+
+* `d[i, w - weights[i]] + values[i]`:
+  This represents the case where we **do take item `i`**.
+
+  * First, we must ensure `w - weights[i] >= 0` (the item fits).
+  * Then we add its value: the best we can do with capacity reduced by its weight (`w - weights[i]`) plus the item’s value.
+
+* `Math.Max(...)`:
+  We take the better of the two choices:
+
+  * Skip the item → `d[i, w]`
+  * Take the item → `d[i, w - weights[i]] + values[i]`
+
+So the line encodes the **choice at each step**: *include the item if it improves total value, otherwise skip it.*
+
+---
+
+👉 Put simply:
+This line **builds the recurrence relation** of 0/1 knapsack:
+
+[
+dp[i+1][w] = \max(dp[i][w],\ dp[i][w - weight[i]] + value[i])
+]
+
+It says: *When considering item `i`, the best value at capacity `w` is either without it or with it (if it fits).*
+
 **LeetCode Practice**
 
 * [Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum/)

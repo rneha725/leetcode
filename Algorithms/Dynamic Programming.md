@@ -1,8 +1,4 @@
-Cool, here’s an extended version of your DP “master notes,” now with **5 LeetCode links (medium / hard)** per pattern (when applicable). Use these as practice anchors. I’ll keep the structure clean so you can directly convert into your notes.
-
----
-
-# 🧠 DP Patterns + Definitions + Core Recurrence + Sample LeetCode Problems
+# DP Patterns + Definitions + Core Recurrence + Sample LeetCode Problems
 
 Dynamic Programming = breaking down a problem into overlapping subproblems + storing (memoizing / tabulating) to avoid recomputation.
 
@@ -211,7 +207,3 @@ dp[mask][i] = min / max over j in mask\{i} { dp[mask without i][j] + cost(j,i) }
 3. [Bitwise AND of Subsets / Subset enumeration ones from advanced lists]
 4. [Smallest Sufficient Team (Hard)](https://leetcode.com/problems/smallest-sufficient-team/)
 5. [“Assignment” / “Matching” problems using mask + DP]
-
----
-
-If you want, I can prepare a **PDF / neatly formatted note** combining all this plus space for your own comments, or send you a set of **worked example solutions** (with code + commentary) for 2–3 from each category. Which version do you want me to send next?

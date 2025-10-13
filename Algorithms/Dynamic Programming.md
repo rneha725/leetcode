@@ -132,6 +132,7 @@ for i in range(1,n+1):
 
 ## 4. **Knapsack / Subset DP**
 
+- For seeing the clashes in DP overlaps, see if in tabulation you can land on to same key again, how would you select one over another.
 **Definition**
 Pick items under constraints to maximize/minimize. Examples: 0/1 knapsack, subset sum, partition problem.
 

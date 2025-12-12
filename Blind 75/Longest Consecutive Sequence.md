@@ -33,7 +33,6 @@ int longestConsecutive(vector<int>& nums) {
     for(int n: nums) {
         seq_map[n] = 1;
     }
-
     for(auto it = seq_map.begin(); it != seq_map.end(); it++) {
         int curr = it->first;
         while(curr-- >= LIMIT && seq_map.count(curr)) {

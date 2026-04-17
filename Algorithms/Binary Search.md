@@ -42,7 +42,7 @@ int binary_search(vector<int> array, int target) {
     if(reject_condition) {         
       left = mid + 1; //go right
     } else {
-      right = mid - 1; //go left
+      right = mid; //go left, but keep middle as a candidate
     }
   }
 

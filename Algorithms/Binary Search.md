@@ -1,5 +1,5 @@
 ## Normal binary search
-- Sorted search space where we know that element exists in the seach space
+- Sorted search space where we know that element exists in the search space
 
 ```cpp
 int binary_search(vector<int> array, int target) {
@@ -23,8 +23,8 @@ int binary_search(vector<int> array, int target) {
 
 Time complexity: O(Log(size_of_array))
 
-## Bianry search for boundary elements
-- Sometimes in a sorted space we want to search for the first/last occurence, or say an element just greater/lesser than a target element. With few tweaks we can achieve it using binary seach.
+## Binary search for boundary elements
+- Sometimes in a sorted space we want to search for the first/last occurence, or say an element just greater/lesser than a target element. With few tweaks we can achieve it using binary search.
 
 <table>
   <tr>
@@ -69,14 +69,15 @@ int binary_search(vector<int> array, int target) {
       right = mid - 1; //go left
     }
   }
+  return -1;
 }
 ```
   
 </td>
 </tr>
-</table
+</table>
 
-#### Defining rejcet conditions, looking for
+#### Defining reject conditions, looking for
 - number >= target : array[mid] < target and return left
 - number > target : array[mid] <= target and return left
 - number <= target : array[mid] > target and return left - 1

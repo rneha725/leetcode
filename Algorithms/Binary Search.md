@@ -80,5 +80,5 @@ int binary_search(vector<int> array, int target) {
 #### Defining reject conditions, looking for
 - number >= target : array[mid] < target and return left
 - number > target : array[mid] <= target and return left
-- number <= target : array[mid] > target and return left - 1
-- number < target : array[mid] >= target and return left - 1
+- number <= target : array[mid] <= target and return left - 1
+- number < target : array[mid] < target and return left - 1
